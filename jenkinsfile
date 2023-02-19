@@ -1,0 +1,16 @@
+node {
+    stage('Clone') { // for display purposes
+        // Get some code from a GitHub repository
+         git url:'https://github.com/Aly-Ghazal/Booster_CI_CD_Project', branch:'master',
+                credentialsId:'Github-user'
+    }
+    stage('build and push to dockerhub') {
+        sh:'''
+        docker build Booster_CI_CD_Project -f Dockerfile -t alyghazal22/Booster_CI_CD_Project:v1.0
+        docker push alyghazal22/Booster_CI_CD_Project:v1.0
+        '''
+    }
+    stage('Deploy app'){
+
+    }
+}
