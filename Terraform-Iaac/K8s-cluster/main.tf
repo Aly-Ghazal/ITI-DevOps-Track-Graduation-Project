@@ -44,7 +44,6 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSVPCResourceController" {
 }
 
 
-
 resource "aws_eks_addon" "kubeproxy-addon" {
   cluster_name = aws_eks_cluster.Cluster.name
   addon_name = "kube-proxy"
@@ -59,8 +58,6 @@ resource "aws_eks_addon" "vpc-cni-addon" {
   cluster_name = aws_eks_cluster.Cluster.name
   addon_name = "vpc-cni"
 }
-
-
 
 resource "aws_launch_template" "launch_template_eks_group_node" {
   instance_type = "t3.small"

@@ -4,6 +4,7 @@ resource "aws_vpc" "custom-vpc" {
     Name = var.VPC-name
   }
 }
+
 resource "aws_subnet" "publicSubnets" {
   count             = length(var.publicSubnets-cidr)
   cidr_block        = var.publicSubnets-cidr[count.index]
@@ -15,7 +16,6 @@ resource "aws_subnet" "publicSubnets" {
   
 }
 
-
 resource "aws_subnet" "privateSubnets" {
   count             = length(var.privateSubnets-cidr)
   cidr_block        = var.privateSubnets-cidr[count.index]
@@ -25,7 +25,6 @@ resource "aws_subnet" "privateSubnets" {
     Name = var.privateSubnets-tag-names[count.index]
   }
 }
-
 
 resource "aws_route_table" "publicRoutes" {
   vpc_id = aws_vpc.custom-vpc.id
@@ -45,7 +44,6 @@ resource "aws_route_table_association" "publicRouteAssociate" {
   subnet_id      = aws_subnet.publicSubnets[count.index].id
   route_table_id = aws_route_table.publicRoutes.id
 }
-
 
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.custom-vpc.id
