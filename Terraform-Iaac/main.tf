@@ -11,5 +11,6 @@ module "myNetwork" {
 
 module "Eks-Ckuster" {
   source = "./K8s-cluster"
-  eks-cluster-subnets-id=module.myNetwork.publicSubnets-ids
+  eks-cluster-subnets-id    = module.myNetwork.publicSubnets-ids
+  eks-node-subnet_ids       = module.myNetwork.PrivateSubnets-ids
 }

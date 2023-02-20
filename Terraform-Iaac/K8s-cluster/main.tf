@@ -2,9 +2,10 @@ resource "aws_eks_cluster" "Cluster" {
   name = "ITI-Cluster"
   role_arn = aws_iam_role.EKS-cluster-Role.arn
   vpc_config {
-    subnet_ids = var.eks-cluster-subnets-id
+    subnet_ids = var.eks-node-subnet_ids
     endpoint_public_access  = true
     endpoint_private_access = true
+    public_access_cidrs = [ "0.0.0.0/0" ]
   }
     depends_on = [
     aws_iam_role_policy_attachment.AmazonEKSClusterPolicy,
@@ -42,11 +43,45 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSVPCResourceController" {
   role       = aws_iam_role.EKS-cluster-Role.name
 }
 
+
+
+resource "aws_eks_addon" "kubeproxy-addon" {
+  cluster_name = aws_eks_cluster.Cluster.name
+  addon_name = "kube-proxy"
+}
+
+resource "aws_eks_addon" "coredns-addon" {
+  cluster_name = aws_eks_cluster.Cluster.name
+  addon_name = "coredns"
+}
+
+resource "aws_eks_addon" "vpc-cni-addon" {
+  cluster_name = aws_eks_cluster.Cluster.name
+  addon_name = "vpc-cni"
+}
+
+
+
+resource "aws_launch_template" "launch_template_eks_group_node" {
+  instance_type = "t3.small"
+  block_device_mappings {
+     device_name = "/dev/sda1"
+    ebs {
+      volume_size = 15
+    }
+  }
+}
+
 resource "aws_eks_node_group" "node_group" {
   cluster_name    = aws_eks_cluster.Cluster.name
   node_group_name = "Testing-node"
   node_role_arn   = aws_iam_role.eks-node-group.arn
-  subnet_ids      = var.eks-cluster-subnets-id
+  subnet_ids      = var.eks-node-subnet_ids
+  #disk_size = 10
+  launch_template {
+    id      = aws_launch_template.launch_template_eks_group_node.id
+    version = "1"
+  }
 
   scaling_config {
     desired_size = 1
