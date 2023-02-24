@@ -1,0 +1,24 @@
+# bash
+# sudo yum update -y
+# sudo yum info docker
+# sudo yum install docker
+# sudo service docker start
+# sudo systemctl enable docker.service
+- name: configure webservers
+  hosts: WorkerNode1
+  become: true
+  tasks:
+   - name: update package manager
+     yum:
+       update_cache: true
+      
+   - name: install docker
+     yum:
+       name: docker
+       state: present
+
+   - name: start docker service
+     service:
+        name: docker
+        state: started
+        enabled: true

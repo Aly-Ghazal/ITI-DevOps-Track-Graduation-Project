@@ -52,6 +52,7 @@ resource "aws_eks_addon" "kubeproxy-addon" {
 resource "aws_eks_addon" "coredns-addon" {
   cluster_name = aws_eks_cluster.Cluster.name
   addon_name = "coredns"
+
 }
 
 resource "aws_eks_addon" "vpc-cni-addon" {
@@ -61,12 +62,14 @@ resource "aws_eks_addon" "vpc-cni-addon" {
 
 resource "aws_launch_template" "launch_template_eks_group_node" {
   instance_type = "t3.small"
+  key_name = "ansible"
   block_device_mappings {
      device_name = "/dev/sda1"
     ebs {
       volume_size = 15
     }
   }
+  
 }
 
 resource "aws_eks_node_group" "node_group" {
@@ -82,7 +85,7 @@ resource "aws_eks_node_group" "node_group" {
 
   scaling_config {
     desired_size = 1
-    max_size     = 1
+    max_size     = 2
     min_size     = 1
   }
 

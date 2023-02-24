@@ -7,6 +7,11 @@ RUN add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/debian \
    $(lsb_release -cs) \
    stable"
-RUN apt-get update  -qq \
-    && apt-get -y install docker-ce
+RUN apt-get update  -qq &&\
+    apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 RUN usermod -aG docker jenkins
+
+RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl; \
+    chmod +x ./kubectl; \ 
+    mv ./kubectl /usr/local/bin/kubectl
+RUN 
