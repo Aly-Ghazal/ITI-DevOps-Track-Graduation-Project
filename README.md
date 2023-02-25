@@ -117,8 +117,7 @@ and for This we will use **AWS** Infrastructure to deploy our application using 
 
 ## Future Work
 
-we can use an older version of EKS cluster to use docker engine without the need of install it by bastion host
-
-OR
-
+- we can use an older version of EKS cluster to use docker engine without the need of install it by bastion host
+**OR**
 keep using the same version but instead of using Docker we can use a tool like [Kaniko](https://github.com/GoogleContainerTools/kaniko) to build images for our app it lack some features that docker have like caching built images but it still more secure than using a bastion host to install docker engine
+- instead of using dockerhub we can use private container registry like Amazon ECR
