@@ -14,3 +14,10 @@ module "Eks-Ckuster" {
   eks-cluster-subnets-id    = module.myNetwork.publicSubnets-ids
   eks-node-subnet_ids       = module.myNetwork.PrivateSubnets-ids
 }
+module "Instances" {
+  source                    = "./Bastion-Host"
+  instance-type             = "t2.micro"
+  publicInstances-tag-name  = "PublicInstance01"
+  vpc-id                    = module.myNetwork.vpc-id
+  publicSubnet_id           = module.myNetwork.publicSubnets-ids[0]
+}

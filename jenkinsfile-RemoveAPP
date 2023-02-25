@@ -1,0 +1,14 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Remove App') {
+            steps {
+                sh'''
+                cd /var/jenkins_home/workspace/Deploy-App-in-K8s/K8s-app-files
+                kubectl delete -f .
+                '''
+            }
+        }
+    }
+}
