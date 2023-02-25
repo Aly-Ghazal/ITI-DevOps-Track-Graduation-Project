@@ -1,5 +1,7 @@
 # ITI DevOps Track Graduation Project
 
+Created by: [Aly Ghazal](https://www.linkedin.com/in/aly-ghazal/)
+
 The purpose of this project is to Deploy a simple Nodejs app in K8s cluster using Jenkins deployed in the same K8s cluster too
 
 ## Our deployment would be look like this
